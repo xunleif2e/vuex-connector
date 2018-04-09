@@ -1,6 +1,6 @@
 # @xunlei/vuex-connector
 
-> 借鉴了 React 容器组件（Smart/Container Components）和展示组件（Dumb/Presentational Components）的模式，基于Vue生态实现
+> 基于 Vue 生态实现的 Vuex store connector，借鉴 React 容器组件（Smart/Container Components）和展示组件（Dumb/Presentational Components）的模式
 
 ## 安装
 
@@ -13,14 +13,15 @@ npm install @xunlei/vuex-connector
 ### 初始化
 
 `store/index.js`
+
 ```js
-import VuexConnector from '@/VuexConnector'
+import VuexConnector from '@/VuexConnector';
 
 // 将store传入connecor进行连接
-export const connector = new VuexConnector(store)
+export const connector = new VuexConnector(store);
 ```
 
-### 生成容器组件 
+### 生成容器组件
 
 `containers/CounterContainer.vue`
 
@@ -66,7 +67,6 @@ export default {
 </script>
 ```
 
-
 ## API
 
 ### `class` VuexConnector
@@ -80,29 +80,50 @@ export default {
 typescript 定义
 
 ```ts
-connect({mapStateToProps, mapGettersToProps, mapDispatchToProps, mapCommitToProps}?: {
-  mapStateToProps?: {};
-  mapGettersToProps?: {};
-  mapDispatchToProps?: {};
-  mapCommitToProps?: {};
-}): (Component: typeof Vue) => FunctionalComponentOptions<any>;
+connect({
+  mapStateToProps?,
+  mapGettersToProps?,
+  mapDispatchToProps?,
+  mapCommitToProps?
+}): (Component: typeof Vue) => FunctionalComponentOptions<any>
 ```
 
-connect 传入配置，生成一个高阶函数，高阶函数传入一个要连接的展示组件，即可生成最终的容器组件。
+connect 函数根据传入配置，生成一个高阶函数，高阶函数传入一个要连接的展示组件，即可生成最终的容器组件。
 
-#### mapStateToProps 配置 
+#### mapStateToProps 配置
 
 ```ts
 {
   [prop: string]: (state) => anyState;
 }
 ```
+
+例子:
+
+```js
+connector.connect({
+  mapStateToProps: {
+    userId: state => state.userId,
+  },
+})(Counter);
+```
+
 #### mapGettersToProps 配置
 
 ```ts
 {
   [prop: string]: (getters) => anyGetter;
 }
+```
+
+例子:
+
+```js
+connector.connect({
+  mapGettersToProps: {
+    isLogin: getters => getters.isLogin,
+  },
+})(Counter);
 ```
 
 #### mapDispatchToProps 配置
@@ -113,6 +134,18 @@ connect 传入配置，生成一个高阶函数，高阶函数传入一个要连
 }
 ```
 
+例子:
+
+```js
+connector.connect({
+  mapDispatchToProps: {
+    // onIncrease，onDecrease都是是Counter接收的prop
+    onIncrease: 'increment',
+    onDecrease: 'decrement',
+  },
+})(Counter);
+```
+
 #### mapCommitToProps 配置
 
 ```ts
@@ -121,7 +154,17 @@ connect 传入配置，生成一个高阶函数，高阶函数传入一个要连
 }
 ```
 
+例子:
 
+```js
+connector.connect({
+  mapCommitToProps: {
+    // onIncrease，onDecrease都是是Counter接收的prop
+    onIncrease: 'increment',
+    onDecrease: 'decrement',
+  },
+})(Counter);
+```
 
 ## License
 
