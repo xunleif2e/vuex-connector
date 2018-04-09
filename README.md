@@ -15,7 +15,7 @@ npm install @xunlei/vuex-connector
 `store/index.js`
 
 ```js
-import VuexConnector from '@/VuexConnector';
+import VuexConnector from '@xunlei/VuexConnector';
 
 // 将store传入connecor进行连接
 export const connector = new VuexConnector(store);
