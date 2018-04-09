@@ -25,23 +25,21 @@ export const connector = new VuexConnector(store);
 
 `containers/CounterContainer.vue`
 
-```html
-<script>
-import Counter from '@/components/Counter'
-import { connector } from '@/store'
+```js
+import Counter from '@/components/Counter';
+import {connector} from '@/store';
 
 export default connector.connect({
   mapStateToProps: {
     // total是Counter接收的prop之一
-    total: (state) => state.count
+    total: state => state.count,
   },
   mapCommitToProps: {
     // onIncrease，onDecrease都是是Counter接收的prop
     onIncrease: 'increment',
-    onDecrease: 'decrement'
-  }
-})(Counter)
-</script>
+    onDecrease: 'decrement',
+  },
+})(Counter);
 ```
 
 ### 使用容器组件
