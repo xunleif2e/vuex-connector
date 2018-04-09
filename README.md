@@ -54,7 +54,7 @@ export default connector.connect({
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import CounterContainer from '@/containers/CounterContainer'
 
 export default {
