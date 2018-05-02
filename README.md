@@ -4,7 +4,7 @@
 
 ## 安装
 
-```
+```bash
 npm install @xunlei/vuex-connector
 ```
 
@@ -69,7 +69,7 @@ export default {
 
 ### `class` VuexConnector
 
-### constructor(store: Store<any>)
+### constructor(store: Store)
 
 构造函数需要传入一个 Vuex store 的实例
 
