@@ -2,6 +2,13 @@
 
 > 基于 Vue 生态实现的 Vuex store connector，借鉴 React 容器组件（Smart/Container Components）和展示组件（Dumb/Presentational Components）的模式
 
+
+
+[![npm (scoped)](https://img.shields.io/npm/v/@xunlei/vuex-connector.svg)](https://www.npmjs.com/package/@xunlei/vuex-connector)
+[![GitHub stars](https://img.shields.io/github/stars/xunleif2e/vuex-connector.svg?style=social)](https://github.com/xunleif2e/vuex-connector/stargazers)
+[![GitHub license](https://img.shields.io/github/license/xunleif2e/vuex-connector.svg?style=social)](https://github.com/xunleif2e/vuex-connector/blob/master/LICENSE)
+ [![](https://badge.juejin.im/entry/5aea78e6518825673614bfc0/likes.svg?style=flat-square)](https://juejin.im/post/5ae9a5545188256709610635)
+
 ## 安装
 
 ```bash
