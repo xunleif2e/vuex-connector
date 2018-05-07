@@ -9,23 +9,6 @@
     "no-unused-variable": true,
     "no-duplicate-imports": true,
     "no-debugger": true,
-    "interface-name": [true, "always-prefix"],
-    "ext-variable-name": [
-      true,
-      ["class", "pascal"],
-      ["interface", "pascal", { "regex": "^I.*$" }],
-      ["parameter", "camel"],
-      ["property", "static", "camel"],
-      ["property", "private", "camel"],
-      ["property", "protected", "camel"],
-      ["variable", "camel"],
-      ["method", "private", "camel"],
-      ["method", "snack"],
-      ["method", "upper"],
-      ["method", "protected", "camel"],
-      ["function", "camel"],
-      ["default", "camel"]
-    ],
     "typedef": [
       true,
       "call-signature",

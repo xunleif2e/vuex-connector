@@ -1,6 +1,12 @@
 import { Store } from 'vuex';
 import Vue, { CreateElement, FunctionalComponentOptions } from 'vue';
 
+declare module 'vue/types/vue' {
+  interface VueConstructor {
+    $store: Store<any>;
+  }
+}
+
 interface IMapOptions {
   [index: string]: any;
 }
@@ -29,8 +35,8 @@ export default class VuexConnector {
                 context.data.props,
                 this.dataToProps(mapStateToProps, 'state', component),
                 this.dataToProps(mapGettersToProps, 'getters', component),
-                this.functionToProps(mapDispatchToProps, 'dispatch'),
-                this.functionToProps(mapCommitToProps, 'commit')
+                this.functionToProps(mapDispatchToProps, 'dispatch', component),
+                this.functionToProps(mapCommitToProps, 'commit', component)
               )
             }),
             context.children
@@ -58,20 +64,21 @@ export default class VuexConnector {
       }
 
       // 执行环境为要连接的组件，这样map函数内就可以访问this
-      pre[cur] = fn.call(vm, this.store[type]);
+      pre[cur] = fn.call(vm, (this.store || vm.$store)[type]);
       return pre;
     }, {});
   }
 
   private functionToProps(
     map: IMapOptions = {},
-    type: 'commit' | 'dispatch'
+    type: 'commit' | 'dispatch',
+    vm: typeof Vue
   ): any {
     return Object.keys(map).reduce((pre: IMapOptions, cur: string) => {
       const option: string = map[cur];
 
       pre[cur] = (...args: any[]): any => {
-        const fn: any = this.store[type];
+        const fn: any = (this.store || vm.$store)[type];
         return fn(option, ...args);
       };
       return pre;
