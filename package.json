@@ -23,9 +23,9 @@
   "scripts": {
     "clean": "rimraf lib && rimraf coverage",
     "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
-    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "lint": "tslint \"src/**/*.ts\" --project ./",
     "prepublish": "npm run build",
-    "prebuild": "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
+    "prebuild": "npm run clean && npm run lint && echo Using TypeScript && tsc --version",
     "build": "tsc --pretty",
     "test": "jest",
     "coverage": "jest --coverage",
@@ -44,8 +44,9 @@
     "ts-jest": "^20.0.7",
     "ts-node": "^3.2.0",
     "tslint": "^5.0.0",
-    "tslint-config-prettier": "^1.1.0",
+    "tslint-config-standard": "^7.0.0",
     "typescript": "^2.3.0",
+    "vrsource-tslint-rules": "^5.8.2",
     "vue": "^2.5.16",
     "vuex": "^3.0.1"
   },

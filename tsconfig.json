@@ -9,6 +9,7 @@
     ],
     "target": "es5",
     "strict": true,
+    "baseUrl": "./",
     "outDir": "./lib",
     "preserveConstEnums": true,
     "removeComments": true,

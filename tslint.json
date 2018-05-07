@@ -1,6 +1,42 @@
 {
-  "extends": [
-    "tslint:latest",
-    "tslint-config-prettier"
-  ]
+  "defaultSeverity": "error",
+  "extends": ["tslint-config-standard"],
+  "rulesDirectory": ["node_modules/vrsource-tslint-rules/rules"],
+  "jsRules": {},
+  "rules": {
+    "semicolon": [true, "always"],
+    "space-before-function-paren": [true, { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
+    "no-unused-variable": true,
+    "no-duplicate-imports": true,
+    "no-debugger": true,
+    "interface-name": [true, "always-prefix"],
+    "ext-variable-name": [
+      true,
+      ["class", "pascal"],
+      ["interface", "pascal", { "regex": "^I.*$" }],
+      ["parameter", "camel"],
+      ["property", "static", "camel"],
+      ["property", "private", "camel"],
+      ["property", "protected", "camel"],
+      ["variable", "camel"],
+      ["method", "private", "camel"],
+      ["method", "snack"],
+      ["method", "upper"],
+      ["method", "protected", "camel"],
+      ["function", "camel"],
+      ["default", "camel"]
+    ],
+    "typedef": [
+      true,
+      "call-signature",
+      "arrow-call-signature",
+      "parameter",
+      "arrow-parameter",
+      "property-declaration",
+      "variable-declaration",
+      "member-variable-declaration",
+      "object-destructuring",
+      "array-destructuring"
+    ]
+  }
 }

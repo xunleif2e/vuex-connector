@@ -1,14 +1,7 @@
-import { Commit, Dispatch, Store } from 'vuex';
-import Vue, {
-  CreateElement,
-  VueConstructor,
-  FunctionalComponentOptions,
-} from 'vue';
+import { Store } from 'vuex';
+import Vue, { CreateElement, FunctionalComponentOptions } from 'vue';
 
-interface functionMap {
-  (data: any): any;
-}
-interface mapOptions {
+interface IMapOptions {
   [index: string]: any;
 }
 
@@ -22,55 +15,63 @@ export default class VuexConnector {
     mapStateToProps = {},
     mapGettersToProps = {},
     mapDispatchToProps = {},
-    mapCommitToProps = {},
-  } = {}): (Component: typeof Vue) => FunctionalComponentOptions<any> {
-    return (Component: typeof Vue) => {
+    mapCommitToProps = {}
+  }: any = {}): (component: typeof Vue) => FunctionalComponentOptions<any> {
+    return (component: typeof Vue): any => {
       return {
         functional: true,
-        render: (createElement: CreateElement, context: any) => {
+        render: (createElement: CreateElement, context: any): any => {
           return createElement(
-            Component,
+            component,
             Object.assign(context.data, {
               props: Object.assign(
                 {},
                 context.data.props,
-                this.dataToProps(mapStateToProps, 'state'),
-                this.dataToProps(mapGettersToProps, 'getters'),
+                this.dataToProps(mapStateToProps, 'state', component),
+                this.dataToProps(mapGettersToProps, 'getters', component),
                 this.functionToProps(mapDispatchToProps, 'dispatch'),
                 this.functionToProps(mapCommitToProps, 'commit')
-              ),
+              )
             }),
             context.children
           );
-        },
+        }
       };
     };
   }
 
-  private dataToProps(map: mapOptions = {}, type: 'getters' | 'state') {
-    return Object.keys(map).reduce((pre: mapOptions, cur: string) => {
-      let option = map[cur];
-      let fn;
+  private dataToProps(
+    map: IMapOptions = {},
+    type: 'getters' | 'state',
+    vm: typeof Vue
+  ): any {
+    return Object.keys(map).reduce((pre: IMapOptions, cur: string) => {
+      const option: any = map[cur];
+      let fn: any;
       switch (typeof option) {
         case 'function':
           fn = option;
           break;
         case 'string':
-          fn = (data: any) => data[option];
+          fn = (data: any): any => data[option];
           break;
       }
 
-      pre[cur] = fn(this.store[type]);
+      // 执行环境为要连接的组件，这样map函数内就可以访问this
+      pre[cur] = fn.call(vm, this.store[type]);
       return pre;
     }, {});
   }
 
-  private functionToProps(map: mapOptions = {}, type: 'commit' | 'dispatch') {
-    return Object.keys(map).reduce((pre: mapOptions, cur) => {
-      let option = map[cur];
+  private functionToProps(
+    map: IMapOptions = {},
+    type: 'commit' | 'dispatch'
+  ): any {
+    return Object.keys(map).reduce((pre: IMapOptions, cur: string) => {
+      const option: string = map[cur];
 
-      pre[cur] = (...args: any[]) => {
-        let fn: any = this.store[type];
+      pre[cur] = (...args: any[]): any => {
+        const fn: any = this.store[type];
         return fn(option, ...args);
       };
       return pre;
