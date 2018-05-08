@@ -1,6 +1,6 @@
 {
   "name": "@xunlei/vuex-connector",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "基于 Vue 生态实现的Vuex store connector，借鉴 React 容器组件（Smart/Container Components）和展示组件（Dumb/Presentational Components）的模式",
   "license": "MIT",
   "repository": "https://github.com/xunleif2e/vuex-connector",
