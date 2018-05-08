@@ -98,7 +98,9 @@ connect 函数根据传入配置，生成一个高阶函数，高阶函数传入
 
 ```ts
 {
-  [prop: string]: (state) => anyState;
+  // state 指的是 vuex store 的state
+  // props 指的是调用容器组件时传来的所有的props，是个对象
+  [prop: string]: (state, props) => anyState;
 }
 ```
 
@@ -116,7 +118,7 @@ connector.connect({
 
 ```ts
 {
-  [prop: string]: (getters) => anyGetter;
+  [prop: string]: (getters, props) => anyGetter;
 }
 ```
 

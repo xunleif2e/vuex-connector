@@ -33,8 +33,8 @@ export default class VuexConnector {
               props: Object.assign(
                 {},
                 context.data.props,
-                this.dataToProps(mapStateToProps, 'state'),
-                this.dataToProps(mapGettersToProps, 'getters'),
+                this.dataToProps(mapStateToProps, 'state', context.data.props),
+                this.dataToProps(mapGettersToProps, 'getters', context.data.props),
                 this.functionToProps(mapDispatchToProps, 'dispatch'),
                 this.functionToProps(mapCommitToProps, 'commit')
               )
@@ -48,7 +48,8 @@ export default class VuexConnector {
 
   private dataToProps(
     map: IMapOptions = {},
-    type: 'getters' | 'state'
+    type: 'getters' | 'state',
+    props: any
   ): any {
     return Object.keys(map).reduce((pre: IMapOptions, cur: string) => {
       const option: any = map[cur];
@@ -62,7 +63,7 @@ export default class VuexConnector {
           break;
       }
 
-      pre[cur] = fn.call(null, this.store[type]);
+      pre[cur] = fn.call(null, this.store[type], props);
       return pre;
     }, {});
   }
