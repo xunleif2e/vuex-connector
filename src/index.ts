@@ -32,9 +32,9 @@ export default class VuexConnector {
             Object.assign(context.data, {
               props: Object.assign(
                 {},
-                context.data.props,
-                this.dataToProps(mapStateToProps, 'state', context.data.props),
-                this.dataToProps(mapGettersToProps, 'getters', context.data.props),
+                context.props,
+                this.dataToProps(mapStateToProps, 'state', context.props),
+                this.dataToProps(mapGettersToProps, 'getters', context.props),
                 this.functionToProps(mapDispatchToProps, 'dispatch'),
                 this.functionToProps(mapCommitToProps, 'commit')
               )
