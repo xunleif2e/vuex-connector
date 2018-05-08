@@ -33,10 +33,10 @@ export default class VuexConnector {
               props: Object.assign(
                 {},
                 context.data.props,
-                this.dataToProps(mapStateToProps, 'state', component),
-                this.dataToProps(mapGettersToProps, 'getters', component),
-                this.functionToProps(mapDispatchToProps, 'dispatch', component),
-                this.functionToProps(mapCommitToProps, 'commit', component)
+                this.dataToProps(mapStateToProps, 'state'),
+                this.dataToProps(mapGettersToProps, 'getters'),
+                this.functionToProps(mapDispatchToProps, 'dispatch'),
+                this.functionToProps(mapCommitToProps, 'commit')
               )
             }),
             context.children
@@ -48,8 +48,7 @@ export default class VuexConnector {
 
   private dataToProps(
     map: IMapOptions = {},
-    type: 'getters' | 'state',
-    vm: typeof Vue
+    type: 'getters' | 'state'
   ): any {
     return Object.keys(map).reduce((pre: IMapOptions, cur: string) => {
       const option: any = map[cur];
@@ -63,22 +62,19 @@ export default class VuexConnector {
           break;
       }
 
-      // 执行环境为要连接的组件，这样map函数内就可以访问this
-      pre[cur] = fn.call(vm, (this.store || vm.$store)[type]);
+      pre[cur] = fn.call(null, this.store[type]);
       return pre;
     }, {});
   }
-
   private functionToProps(
     map: IMapOptions = {},
-    type: 'commit' | 'dispatch',
-    vm: typeof Vue
+    type: 'commit' | 'dispatch'
   ): any {
     return Object.keys(map).reduce((pre: IMapOptions, cur: string) => {
       const option: string = map[cur];
 
       pre[cur] = (...args: any[]): any => {
-        const fn: any = (this.store || vm.$store)[type];
+        const fn: any = this.store[type];
         return fn(option, ...args);
       };
       return pre;
