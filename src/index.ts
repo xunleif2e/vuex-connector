@@ -42,7 +42,7 @@ export default class VuexConnector {
               on: Object.assign(
                 {},
                 context.on,
-                this.functionToEvents(mapDispatchToEmits, 'dispatch')
+                this.functionToProps(mapDispatchToEmits, 'dispatch')
               )
             }),
             context.children
@@ -50,22 +50,6 @@ export default class VuexConnector {
         }
       };
     };
-  }
-
-  private functionToEvents(
-    map: IMapOptions = {}, 
-    type: 'dispatch' | 'commit'
-  ): any {
-    const events = Object.keys(map).reduce((pre: IMapOptions, cur: string) => {
-      const option: string = map[cur];
-
-      pre[cur] = (...args: any[]): any => {
-        const fn: any = this.store[type];
-        return fn(option, ...args);
-      };
-      return pre;
-    }, {});
-    return events;
   }
 
   private dataToProps(
