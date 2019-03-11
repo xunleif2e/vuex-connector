@@ -21,7 +21,8 @@ export default class VuexConnector {
     mapStateToProps = {},
     mapGettersToProps = {},
     mapDispatchToProps = {},
-    mapCommitToProps = {}
+    mapCommitToProps = {},
+    mapDispatchToEmits = {}
   }: any = {}): (component: typeof Vue) => FunctionalComponentOptions<any> {
     return (component: typeof Vue): any => {
       return {
@@ -37,6 +38,11 @@ export default class VuexConnector {
                 this.dataToProps(mapGettersToProps, 'getters', context.props),
                 this.functionToProps(mapDispatchToProps, 'dispatch'),
                 this.functionToProps(mapCommitToProps, 'commit')
+              ),
+              on: Object.assign(
+                {},
+                context.on,
+                this.functionToProps(mapDispatchToEmits, 'dispatch')
               )
             }),
             context.children
